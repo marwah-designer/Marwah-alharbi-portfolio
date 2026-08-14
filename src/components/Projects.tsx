@@ -2,7 +2,15 @@ import React, { useMemo, useState } from 'react'
 import { useLanguage } from '../contexts/LanguageContext'
 import { projects } from '../data/projects'
 import { translations } from '../data/translations'
+const getImagePath = (imagePath: string) => {
+  if (!imagePath) return ''
 
+  const basePath = window.location.hostname.endsWith('github.io')
+    ? '/Marwah-alharbi-portfolio/'
+    : '/'
+
+  return `${basePath}${imagePath.replace(/^\/+/, '')}`
+}
 const filterDefinitions = [
   'all',
   'branding',
@@ -152,8 +160,7 @@ export const Projects: React.FC = () => {
 
           <div className="project-grid">
             {visibleProjects.map((project, index) => {
-              const imageSrc = project.image
-
+              const imageSrc = getImagePath(project.image)
               const [title, description, category] =
                 language === 'en'
                   ? [
@@ -278,7 +285,7 @@ export const Projects: React.FC = () => {
                     className="overflow-hidden rounded-[1.5rem] border border-[var(--soft)] bg-white"
                   >
                     <img
-                      src={image}
+                      src={getImagePath(image)}
                       alt={
                         language === 'en'
                           ? `${selectedProject.titleEn} ${imageIndex + 1}`
